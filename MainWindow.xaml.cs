@@ -21,6 +21,8 @@ namespace IrodalomProjektOrai
         static List<Quiz> quizzes = new();
         static List<(int, bool)> UserAnswears = new();
         static int currentQuizId = 0;
+        static int GoodAns = 0;
+        static int BadAns = 0;
 
         public MainWindow()
         {
@@ -33,19 +35,30 @@ namespace IrodalomProjektOrai
             openFileDialog.Filter = "Szöveges állomány (*.txt)|*.txt|Táblázat (*.csv)|*.csv";
             openFileDialog.Title = "Fájl megnyitása";
             bool? gotValue = openFileDialog.ShowDialog();
+
             if (gotValue == true)
             {
                 try
                 {
+                    quizzes.Clear();
+                    UserAnswears.Clear(); // Fontos, hogy töröljük az előző válaszokat
+
                     using (StreamReader sr = new StreamReader(openFileDialog.FileName))
                     {
                         while (!sr.EndOfStream)
                         {
                             quizzes.Add(new Quiz(sr.ReadLine()));
                         }
-                        MessageBox.Show($"Sikeresen beolvastad: {openFileDialog.SafeFileName}!");
-                        NextQuestionLoader();
                     }
+
+                    for (int i = 0; i < quizzes.Count; i++)
+                    {
+                        UserAnswears.Add((i, false));
+                    }
+
+                    MessageBox.Show($"Sikeresen beolvastad: {openFileDialog.SafeFileName}!");
+                    currentQuizId = 0; // Az első kérdésre kell ugrani
+                    NextQuestionLoader();
                 }
                 catch (Exception error)
                 {
@@ -54,9 +67,15 @@ namespace IrodalomProjektOrai
             }
         }
 
+
         private void NextQuestionLoader()
         {
-           
+            if (quizzes.Count == 0)
+            {
+                MessageBox.Show("Nincsenek betöltött kérdések!", "Hiba", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
             if (currentQuizId < quizzes.Count)
             {
                 Quiz currentQuiz = quizzes[currentQuizId];
@@ -77,10 +96,39 @@ namespace IrodalomProjektOrai
         }
 
 
+
         private void BtnGrade_Click(object sender, RoutedEventArgs e)
         {
- 
+            if (UserAnswears.Count == 0)
+            {
+                MessageBox.Show("Nem olvastál még be fájlt!"); return;
+            }
+
+            if (UserAnswears.Count < quizzes.Count)
+            {
+                MessageBoxResult result = MessageBox.Show("Még nem válaszoltál az összes kérdésre, biztos ki akarod értékelni?", "Figyelmeztetés", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                if (result == MessageBoxResult.No) return;
+            }
+
+            GoodAns = 0;
+            BadAns = 0;
+            TbkResults.Text = "";
+            for (int i = 0; i < quizzes.Count; i++)
+            {
+                TbkResults.Text += $"{i}. Kérdés: ";
+                TbkResults.Text += UserAnswears[i].Item2 ? "Helyes válasz" : "Helytelen válasz";
+                TbkResults.Text += "\n";
+                if(UserAnswears[i].Item2)
+                {
+                    GoodAns++;
+                } else
+                {
+                    BadAns++;
+                }
+            }
+            TbkResults.Text += $"\n {GoodAns} / {BadAns + GoodAns}";
         }
+
 
         private void BtnQuit_Click(object sender, RoutedEventArgs e)
         {
@@ -107,38 +155,58 @@ namespace IrodalomProjektOrai
         }
 
 
+
         private void BtnSave_Click(object sender, RoutedEventArgs e)
         {
-            Quiz currentQuiz = quizzes[currentQuizId];
-            if (Ans1.IsChecked == true && currentQuiz.Ans1IsCorrect)
+            if (UserAnswears.Count == 0)
             {
-                UserAnswears.Add((currentQuizId, true));
-                MessageBox.Show($"Sikeresen mentve {currentQuizId}: true");
-            }
-            else if (Ans2.IsChecked == true && currentQuiz.Ans2IsCorrect)
-            {
-                UserAnswears.Add((currentQuizId, true));
-                MessageBox.Show($"Sikeresen mentve {currentQuizId}: true");
-            }
-            else if (Ans3.IsChecked == true && currentQuiz.Ans3IsCorrect)
-            {
-                UserAnswears.Add((currentQuizId, true));
-                MessageBox.Show($"Sikeresen mentve {currentQuizId}: true");
+                MessageBox.Show("Nem olvastál még be fájlt!");
             }
             else
             {
-                UserAnswears.Add((currentQuizId, false));
-                MessageBox.Show($"Sikeresen mentve {currentQuizId}: false");
+                Quiz currentQuiz = quizzes[currentQuizId];
+                if (Ans1.IsChecked == true && currentQuiz.Ans1IsCorrect)
+                {
+                    UserAnswears[currentQuizId] = (currentQuizId, true);
+                    MessageBox.Show("Sikeresen mentve lett a válaszod!");
+                }
+                else if (Ans2.IsChecked == true && currentQuiz.Ans2IsCorrect)
+                {
+                    UserAnswears[currentQuizId] = (currentQuizId, true);
+                    MessageBox.Show("Sikeresen mentve lett a válaszod!");
+
+                }
+                else if (Ans3.IsChecked == true && currentQuiz.Ans3IsCorrect)
+                {
+                    UserAnswears[currentQuizId] = (currentQuizId, true);
+                    MessageBox.Show("Sikeresen mentve lett a válaszod!");
+
+                }
+                else if (Ans1.IsChecked == false && Ans2.IsChecked == false && Ans3.IsChecked == false)
+                {
+                    MessageBox.Show("Nem válaszoltál egyik kérdésre sem!");
+                }
+                else
+                {
+                    UserAnswears.Add((currentQuizId, false));
+                    MessageBox.Show("Sikeresen mentve lett a válaszod!");
+                }
             }
 
         }
 
         private void BtnNext_Click(object sender, RoutedEventArgs e)
         {
-            currentQuizId++;
-            NextQuestionLoader();
+            if (currentQuizId+1 < quizzes.Count)
+            {
+                currentQuizId++;
+                NextQuestionLoader();
+            }
+            else
+            {
+                MessageBox.Show($"Nincs több kérdés!");
+            }
+
         }
-
-
     }
 }

@@ -21,11 +21,11 @@
             <Button DockPanel.Dock="Top" Width="160" Height="30" Margin="5" Content="Betöltés" Click="BtnLoad_Click" />
             <Button DockPanel.Dock="Top" Width="160" Height="30" Margin="5" Content="Kiértékelés" Click="BtnGrade_Click" />
             <Button DockPanel.Dock="Bottom" Width="160" Height="30" Margin="5" Content="Kilépés" Click="BtnQuit_Click" />
-            <TextBlock Text="Eredmény" Background="Beige" x:Name="tbkResults" />
+            <TextBlock Text="Eredmény" Background="Beige" x:Name="TbkResults" />
         </DockPanel>
 
         <StackPanel Grid.Column="1" Grid.Row="1" Width="Auto" Height="Auto">
-            <RadioButton GroupName="Answears" x:Name="Ans1" Margin="3" Content="A" />
+            <RadioButton GroupName="Answears" x:Name="Ans1" Margin="3" Content="A"/>
             <RadioButton GroupName="Answears" x:Name="Ans2" Margin="3" Content="B" />
             <RadioButton GroupName="Answears" x:Name="Ans3" Margin="3" Content="C" />
         </StackPanel>
