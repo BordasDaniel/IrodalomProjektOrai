@@ -20,6 +20,7 @@ namespace IrodalomProjektOrai
     {
         static List<Quiz> quizzes = new();
         static List<int> UserAnswears = new();
+        static int currentQuizId = 0;
 
         public MainWindow()
         {
@@ -43,12 +44,25 @@ namespace IrodalomProjektOrai
                             quizzes.Add(new Quiz(sr.ReadLine()));
                         }
                         MessageBox.Show($"Sikeresen beolvastad: {openFileDialog.SafeFileName}!");
+                        NextQuestionLoader();
                     }
                 }
                 catch (Exception error)
                 {
                     MessageBox.Show("Hiba a fájl beolvasásakor: " + error.Message);
                 }
+            }
+        }
+
+        private void NextQuestionLoader()
+        {
+            if (currentQuizId < quizzes.Count)
+            {
+                Quiz currentQuiz = quizzes[currentQuizId];
+                tbkQuestion.Content = currentQuiz.Question;
+                Ans1.Content = currentQuiz.Ans1;
+                Ans2.Content = currentQuiz.Ans2;
+                Ans3.Content = currentQuiz.Ans3;
             }
         }
 

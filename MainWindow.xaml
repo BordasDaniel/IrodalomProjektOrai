@@ -31,7 +31,7 @@
         </StackPanel>
 
         <StackPanel Grid.Column="1" Grid.Row="0" Width="Auto" Height="Auto">
-            <TextBlock x:Name="tbkQuestion" Text="Kérdés" />
+            <Label x:Name="tbkQuestion" Content="Kérdés" />
         </StackPanel>
 
         <StackPanel Width="Auto" Height="50" Grid.Column="1" Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
