@@ -19,7 +19,7 @@ namespace IrodalomProjektOrai
     public partial class MainWindow : Window
     {
         static List<Quiz> quizzes = new();
-        static List<int> UserAnswears = new();
+        static List<(int, bool)> UserAnswears = new();
         static int currentQuizId = 0;
 
         public MainWindow()
@@ -56,6 +56,7 @@ namespace IrodalomProjektOrai
 
         private void NextQuestionLoader()
         {
+           
             if (currentQuizId < quizzes.Count)
             {
                 Quiz currentQuiz = quizzes[currentQuizId];
@@ -63,13 +64,22 @@ namespace IrodalomProjektOrai
                 Ans1.Content = currentQuiz.Ans1;
                 Ans2.Content = currentQuiz.Ans2;
                 Ans3.Content = currentQuiz.Ans3;
+
+                // Clean the checkboxes
+                Ans1.IsChecked = false;
+                Ans2.IsChecked = false;
+                Ans3.IsChecked = false;
+            }
+            else
+            {
+                MessageBox.Show("Nincs több kérdés!");
             }
         }
 
 
         private void BtnGrade_Click(object sender, RoutedEventArgs e)
         {
-
+ 
         }
 
         private void BtnQuit_Click(object sender, RoutedEventArgs e)
@@ -90,12 +100,37 @@ namespace IrodalomProjektOrai
                 currentQuizId--;
                 NextQuestionLoader();
             }
+            else
+            {
+                MessageBox.Show("Nincs előző kérdés!");
+            }
         }
 
 
         private void BtnSave_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("");
+            Quiz currentQuiz = quizzes[currentQuizId];
+            if (Ans1.IsChecked == true && currentQuiz.Ans1IsCorrect)
+            {
+                UserAnswears.Add((currentQuizId, true));
+                MessageBox.Show($"Sikeresen mentve {currentQuizId}: true");
+            }
+            else if (Ans2.IsChecked == true && currentQuiz.Ans2IsCorrect)
+            {
+                UserAnswears.Add((currentQuizId, true));
+                MessageBox.Show($"Sikeresen mentve {currentQuizId}: true");
+            }
+            else if (Ans3.IsChecked == true && currentQuiz.Ans3IsCorrect)
+            {
+                UserAnswears.Add((currentQuizId, true));
+                MessageBox.Show($"Sikeresen mentve {currentQuizId}: true");
+            }
+            else
+            {
+                UserAnswears.Add((currentQuizId, false));
+                MessageBox.Show($"Sikeresen mentve {currentQuizId}: false");
+            }
+
         }
 
         private void BtnNext_Click(object sender, RoutedEventArgs e)
