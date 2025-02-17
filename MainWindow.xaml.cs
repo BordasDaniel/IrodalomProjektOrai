@@ -8,6 +8,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.IO;
 
 namespace IrodalomProjektOrai
 {
@@ -19,6 +20,26 @@ namespace IrodalomProjektOrai
         public MainWindow()
         {
             InitializeComponent();
+        }
+
+        private static void LoadFromFiles(string FileNameWPath)
+        {
+
+        }
+
+        private void BtnLoad_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void BtnGrade_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }
