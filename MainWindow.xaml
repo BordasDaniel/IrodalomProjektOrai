@@ -23,7 +23,26 @@
             <Button DockPanel.Dock="Bottom" Width="160" Height="30" Margin="5" Content="Kilépés" Click="BtnQuit_Click" />
             <TextBlock Text="Eredmény" Background="Beige" x:Name="tbkResults" />
         </DockPanel>
-        
+
+        <StackPanel Grid.Column="1" Grid.Row="1" Width="Auto" Height="Auto">
+            <RadioButton GroupName="Answears" x:Name="Ans1" Margin="3" Content="A" />
+            <RadioButton GroupName="Answears" x:Name="Ans2" Margin="3" Content="B" />
+            <RadioButton GroupName="Answears" x:Name="Ans3" Margin="3" Content="C" />
+        </StackPanel>
+
+        <StackPanel Grid.Column="1" Grid.Row="0" Width="Auto" Height="Auto">
+            <TextBlock x:Name="tbkQuestion" Text="Kérdés" />
+        </StackPanel>
+
+        <StackPanel Width="Auto" Height="50" Grid.Column="1" Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
+            <Button Content="Előző" Margin="5" Padding="5" Width="100" Click="BtnPrevious_Click" />
+            <Button Content="Válasz mentése" Margin="5" Padding="5" Width="100" Click="BtnSave_Click" />
+            <Button Content="Következő" Margin="5" Padding="5" Width="100" Click="BtnNext_Click" />
+        </StackPanel>
+
+
+
+
 
     </Grid>
 </Window>
