@@ -85,7 +85,11 @@ namespace IrodalomProjektOrai
 
         private void BtnPrevious_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("");
+            if (currentQuizId > 0)
+            {
+                currentQuizId--;
+                NextQuestionLoader();
+            }
         }
 
 
@@ -96,7 +100,8 @@ namespace IrodalomProjektOrai
 
         private void BtnNext_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("");
+            currentQuizId++;
+            NextQuestionLoader();
         }
 
 
