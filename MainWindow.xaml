@@ -21,7 +21,7 @@
             <Button DockPanel.Dock="Top" Width="160" Height="30" Margin="5" Content="Betöltés" Click="BtnLoad_Click" />
             <Button DockPanel.Dock="Top" Width="160" Height="30" Margin="5" Content="Kiértékelés" Click="BtnGrade_Click" />
             <Button DockPanel.Dock="Bottom" Width="160" Height="30" Margin="5" Content="Mentés" Click="BtnQuit_Click" />
-
+            <TextBlock Text="Eredmény" Background="Beige" x:Name="tbkResults" />
         </DockPanel>
         
 
