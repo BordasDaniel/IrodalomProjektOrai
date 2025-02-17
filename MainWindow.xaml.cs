@@ -18,12 +18,15 @@ namespace IrodalomProjektOrai
     /// </summary>
     public partial class MainWindow : Window
     {
+        static List<Quiz> quizzes = new();
+        static List<int> UserAnswears = new();
+
         public MainWindow()
         {
             InitializeComponent();
         }
 
-        private static void LoadFromFiles(string FileNameWPath)
+        private void BtnLoad_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.Filter = "Szöveges állomány (*.txt)|*.txt|Táblázat (*.csv)|*.csv";
@@ -31,14 +34,24 @@ namespace IrodalomProjektOrai
             bool? gotValue = openFileDialog.ShowDialog();
             if (gotValue == true)
             {
-                
+                try
+                {
+                    using (StreamReader sr = new StreamReader(openFileDialog.FileName))
+                    {
+                        while (!sr.EndOfStream)
+                        {
+                            quizzes.Add(new Quiz(sr.ReadLine()));
+                        }
+                        MessageBox.Show($"Sikeresen beolvastad: {openFileDialog.SafeFileName}!");
+                    }
+                }
+                catch (Exception error)
+                {
+                    MessageBox.Show("Hiba a fájl beolvasásakor: " + error.Message);
+                }
             }
         }
 
-        private void BtnLoad_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
 
         private void BtnGrade_Click(object sender, RoutedEventArgs e)
         {
@@ -47,8 +60,15 @@ namespace IrodalomProjektOrai
 
         private void BtnQuit_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("");
+            MessageBoxResult result = MessageBox.Show("Biztosan ki akarsz lépni?", "Kilépés", MessageBoxButton.YesNo, MessageBoxImage.Question);
+
+            if (result == MessageBoxResult.Yes)
+            {
+                Application.Current.Shutdown();
+            }
         }
+
+
         private void BtnPrevious_Click(object sender, RoutedEventArgs e)
         {
             MessageBox.Show("");
