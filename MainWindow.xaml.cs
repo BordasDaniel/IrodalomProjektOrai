@@ -37,9 +37,9 @@ namespace IrodalomProjektOrai
 
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void BtnQuit_Click(object sender, RoutedEventArgs e)
         {
-
+            MessageBox.Show("");
         }
     }
 }
