@@ -41,7 +41,7 @@ namespace IrodalomProjektOrai
                 try
                 {
                     quizzes.Clear();
-                    UserAnswears.Clear(); // Fontos, hogy töröljük az előző válaszokat
+                    UserAnswears.Clear();
 
                     using (StreamReader sr = new StreamReader(openFileDialog.FileName))
                     {
@@ -57,7 +57,7 @@ namespace IrodalomProjektOrai
                     }
 
                     MessageBox.Show($"Sikeresen beolvastad: {openFileDialog.SafeFileName}!");
-                    currentQuizId = 0; // Az első kérdésre kell ugrani
+                    currentQuizId = 0;
                     NextQuestionLoader();
                 }
                 catch (Exception error)
@@ -84,7 +84,6 @@ namespace IrodalomProjektOrai
                 Ans2.Content = currentQuiz.Ans2;
                 Ans3.Content = currentQuiz.Ans3;
 
-                // Clean the checkboxes
                 Ans1.IsChecked = false;
                 Ans2.IsChecked = false;
                 Ans3.IsChecked = false;
@@ -115,7 +114,7 @@ namespace IrodalomProjektOrai
             TbkResults.Text = "";
             for (int i = 0; i < quizzes.Count; i++)
             {
-                TbkResults.Text += $"{i}. Kérdés: ";
+                TbkResults.Text += $"{i+1}. Kérdés: ";
                 TbkResults.Text += UserAnswears[i].Item2 ? "Helyes válasz" : "Helytelen válasz";
                 TbkResults.Text += "\n";
                 if(UserAnswears[i].Item2)
