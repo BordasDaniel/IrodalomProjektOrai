@@ -8,7 +8,6 @@ namespace IrodalomProjektOrai
 {
     public class Quiz
     {
-
         public string Question { get; set; }
         public string Ans1 { get; set; }
         public string Ans2 { get; set; }

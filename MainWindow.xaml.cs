@@ -19,7 +19,7 @@ namespace IrodalomProjektOrai
     public partial class MainWindow : Window
     {
         static List<Quiz> quizzes = new();
-        static List<(int, bool)> UserAnswears = new();
+        static List<(int, bool, bool)> UserAnswears = new();
         static int currentQuizId = 0;
         static int GoodAns = 0;
         static int BadAns = 0;
@@ -53,7 +53,7 @@ namespace IrodalomProjektOrai
 
                     for (int i = 0; i < quizzes.Count; i++)
                     {
-                        UserAnswears.Add((i, false));
+                        UserAnswears.Add((i, false, false));
                     }
 
                     MessageBox.Show($"Sikeresen beolvastad: {openFileDialog.SafeFileName}!");
@@ -103,7 +103,16 @@ namespace IrodalomProjektOrai
                 MessageBox.Show("Nem olvastál még be fájlt!"); return;
             }
 
-            if (UserAnswears.Count < quizzes.Count)
+            int AnsweredQuestions = 0;
+            for (int i = 0; i < UserAnswears.Count; i++)
+            {
+                if (UserAnswears[i].Item3)
+                {
+                    AnsweredQuestions++;
+                }
+            }
+
+            if (AnsweredQuestions < quizzes.Count)
             {
                 MessageBoxResult result = MessageBox.Show("Még nem válaszoltál az összes kérdésre, biztos ki akarod értékelni?", "Figyelmeztetés", MessageBoxButton.YesNo, MessageBoxImage.Question);
                 if (result == MessageBoxResult.No) return;
@@ -166,18 +175,18 @@ namespace IrodalomProjektOrai
                 Quiz currentQuiz = quizzes[currentQuizId];
                 if (Ans1.IsChecked == true && currentQuiz.Ans1IsCorrect)
                 {
-                    UserAnswears[currentQuizId] = (currentQuizId, true);
+                    UserAnswears[currentQuizId] = (currentQuizId, true, true);
                     MessageBox.Show("Sikeresen mentve lett a válaszod!");
                 }
                 else if (Ans2.IsChecked == true && currentQuiz.Ans2IsCorrect)
                 {
-                    UserAnswears[currentQuizId] = (currentQuizId, true);
+                    UserAnswears[currentQuizId] = (currentQuizId, true, true);
                     MessageBox.Show("Sikeresen mentve lett a válaszod!");
 
                 }
                 else if (Ans3.IsChecked == true && currentQuiz.Ans3IsCorrect)
                 {
-                    UserAnswears[currentQuizId] = (currentQuizId, true);
+                    UserAnswears[currentQuizId] = (currentQuizId, true, true);
                     MessageBox.Show("Sikeresen mentve lett a válaszod!");
 
                 }
@@ -187,7 +196,7 @@ namespace IrodalomProjektOrai
                 }
                 else
                 {
-                    UserAnswears.Add((currentQuizId, false));
+                    UserAnswears.Add((currentQuizId, false, true));
                     MessageBox.Show("Sikeresen mentve lett a válaszod!");
                 }
             }
